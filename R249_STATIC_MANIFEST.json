@@ -1,0 +1,36 @@
+{
+  "marker": "R249_TEST_ONLY_HTTPS_NOT_PRODUCTION",
+  "createdAt": "2026-11-18",
+  "source": "R240_BO_ONLY_ISOLATED_RELEASE_REVIEW",
+  "syntheticOnly": true,
+  "productionModified": false,
+  "hasBackend": false,
+  "externalConnectionsAllowed": false,
+  "requiresRealMobileAcceptance": true,
+  "staticFiles": [
+    {
+      "name": "boletim_ocorrencia_bptrans_1cprv.html",
+      "sourceSha256": "5449b3b5548163f7b8b053a8e50978e48feef5b59a627527c7aafdfe424754ee",
+      "previewSha256": "7ac9e083532c98bfd85f826668a588b6c83cc2e8db94e623f7b20ca4c720b0a1",
+      "bytes": 184968
+    },
+    {
+      "name": "boletim_ocorrencia_bptrans_1cprv_ios.html",
+      "sourceSha256": "4c350eef407168fbb96d6a205e55fdc8d18ececbb65259f082a9be246a308c5a",
+      "previewSha256": "87cece0d4776ed788df07e54b353b5e3b3fbb15f0456a9a775646d8957183b7a",
+      "bytes": 186814
+    },
+    {
+      "name": "central_cloud.js",
+      "previewSha256": "e4b66874363d794d6b50460f263d8271f4e5ae77a415d99e92470968ab45c75d"
+    },
+    {
+      "name": "module_access_gate.js",
+      "previewSha256": "e4b66874363d794d6b50460f263d8271f4e5ae77a415d99e92470968ab45c75d"
+    },
+    {
+      "name": "service_flow.js",
+      "previewSha256": "e4b66874363d794d6b50460f263d8271f4e5ae77a415d99e92470968ab45c75d"
+    }
+  ]
+}
