@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; form-action 'none'; worker-src 'none'; base-uri 'none'; object-src 'none'">
+<title>Autoteste do celular — BO fotográfico | HOMOLOGAÇÃO</title>
+<style>
+:root{font-family:system-ui,-apple-system,Arial,sans-serif;color:#172d42;background:#edf3f7}
+*{box-sizing:border-box}body{margin:0}main{max-width:770px;margin:18px auto 60px;padding:0 16px}
+h1{font-size:25px;margin:8px 0 6px}h2{font-size:19px;margin:0 0 10px}
+p,li{line-height:1.55}.alert{padding:14px;border:2px solid #ae2635;background:#fff3ee;color:#802033;font-weight:750}
+section{border:1px solid #cddbe5;background:white;border-radius:12px;padding:18px;margin:14px 0;box-shadow:0 2px 6px #0b30440a}
+a{color:#0a5482}a.action{display:block;text-align:center;text-decoration:none;background:#155e8b;color:white;padding:13px;border-radius:8px;margin:10px 0;font-weight:700;min-height:46px}
+button{min-height:44px;border:0;border-radius:8px;padding:11px 15px;background:#135982;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+button.secondary{background:#e3ecf4;color:#173c5d;border:1px solid #a8bbc9}
+button:disabled{opacity:.48;cursor:default}
+label{display:block;font-weight:600;margin:12px 0 5px}
+input,select,textarea{width:100%;min-height:44px;border:1px solid #9eb4c6;border-radius:7px;padding:9px;font:15px system-ui;background:#fff;color:#213d53}
+textarea{resize:vertical;font-family:monospace;font-size:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 170px}
+small,.muted{color:#50667b;font-size:13px}.status{font-weight:700;margin:10px 0}
+.result{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #dce5ed;padding:10px 0}
+.result:first-child{border-top:0}
+.result span{font-size:14px;line-height:1.4}.result strong{white-space:nowrap}
+.pass{color:#136244}.fail{color:#a02831}.pending{color:#705620}
+.check-item{border-top:1px solid #e1e8ed;padding:12px 0}
+.check-item:first-child{border-top:0}
+.check-item .row{align-items:center}
+.check-item .row strong{flex:2 1 200px;font-size:14px}
+.check-item select{flex:1 1 185px;width:auto;max-width:225px}
+.check-item p{font-size:13px;color:#51687a;margin:3px 0 0}
+.control{margin:14px 0}.control input[type=checkbox]{width:20px;height:20px;min-height:auto;vertical-align:middle}
+.control label{display:inline;font-weight:500;margin-left:6px}
+#reportPreview{max-height:200px;overflow:auto}.footer{margin:22px 0;font-size:12px;color:#4e6578}
+</style>
+<script src="teste-dispositivo.js" defer></script>
+</head>
+<body>
+<main>
+<div class="alert">HOMOLOGAÇÃO ISOLADA — SOMENTE IMAGENS FICTÍCIAS. Nunca use BOs, nomes, fotos ou senhas reais.</div>
+<h1>Autoteste do dispositivo</h1>
+<p>Valide recursos do navegador no próprio celular e registre os testes manuais do anexo fotográfico. Nenhum resultado, foto ou senha será enviado à Central ou ao GitHub por esta página.</p>
+<section>
+<h2>1. Identifique somente o tipo de aparelho</h2>
+<div class="row">
+<div><label for="device">Aparelho utilizado</label><select id="device"><option value="">Selecione</option><option value="android">Android físico</option><option value="iphone">iPhone físico</option><option value="desktop">Computador / emulação</option><option value="other">Outro</option></select></div>
+<div><label for="browser">Navegador</label><select id="browser"><option value="">Selecione</option><option value="chrome">Chrome</option><option value="safari">Safari</option><option value="other">Outro</option></select></div>
+</div>
+<label for="version">Modelo e versão do sistema (opcional; não digite nomes, números de série ou dados pessoais)</label>
+<input id="version" maxlength="100" placeholder="Ex.: Galaxy A54, Android 16 ou iPhone 14, iOS 19">
+<div class="control"><input type="checkbox" id="physical"> <label for="physical">Confirmo que realizei os testes diretamente neste aparelho físico (não em emulador).</label></div>
+</section>
+<section>
+<h2>2. Verificações técnicas automáticas</h2>
+<p class="muted">Testes locais de HTTPS, WebCrypto, IndexedDB e imagens de teste geradas por desenho. Não acessam o banco de fotos dos boletins.</p>
+<button id="run" type="button">Executar autoteste</button>
+<div id="autoResults" aria-live="polite"><p class="muted">Ainda não executado.</p></div>
+</section>
+<section>
+<h2>3. Testes manuais do BO</h2>
+<p>Abra o BO em outra guia, sem fechar esta página. Use os botões fictícios A/B e fotos de teste. Marque <strong>Aprovado</strong> somente após executar a ação no aparelho.</p>
+<div class="row">
+<a class="action" href="boletim_ocorrencia_bptrans_1cprv.html?from=index" target="_blank" rel="noopener">Abrir BO Android / normal</a>
+<a class="action" href="boletim_ocorrencia_bptrans_1cprv_ios.html?from=index" target="_blank" rel="noopener">Abrir BO iPhone / iOS</a>
+</div>
+<a href="imagens-ficticias/R250_FOTOS_FICTICIAS_1_A_9.zip" download>Baixar 9 fotos totalmente fictícias (ZIP)</a>
+<div id="manualChecks"></div>
+</section>
+<section>
+<h2>4. Resultado local e relatório</h2>
+<p id="summary" class="status pending" aria-live="polite">Há verificações pendentes.</p>
+<div class="row">
+<button id="download" type="button" class="secondary">Baixar relatório JSON (sem fotos)</button>
+<button id="copy" type="button" class="secondary">Copiar resumo</button>
+</div>
+<p class="muted">O relatório contém apenas resultados, tipo de aparelho, navegador, modelo opcional e momento do teste. <strong>Não registra senhas, fotos, conteúdo do BO, identificação pessoal ou histórico de navegação.</strong> Não constitui aprovação institucional.</p>
+<label for="reportPreview">Resumo para copiar, se o navegador não permitir baixar</label>
+<textarea id="reportPreview" readonly rows="6" aria-label="Relatório gerado para copiar"></textarea>
+</section>
+<p class="footer"><a href="index.html">Voltar à homologação</a>. Prévia pública e temporária. O ambiente oficial da Central não é alterado por estes testes.</p>
+</main>
+</body>
+</html>
