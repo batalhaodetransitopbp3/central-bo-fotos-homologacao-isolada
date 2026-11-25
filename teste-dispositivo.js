@@ -11,9 +11,9 @@ const required=[
  ['nine','Nove fotos distribuídas 4 + 4 + 1','A nona foto deve aparecer sozinha na terceira folha.'],
  ['crop','Enquadramento e rotação','Ajuste zoom, posição e rotação em uma foto e salve o recorte.'],
  ['pdf','PDF legível no próprio aparelho','Gere, abra e confira o PDF de nove fotos, incluindo suas três folhas adicionais.'],
- ['unlock','Proteção por senha após recarregar','Senha incorreta deve falhar; senha correta deve recuperar as fotos.'],
- ['isolation','Isolamento entre BO fictício A e B','Ao selecionar BO B, fotos e senha desbloqueada do BO A não devem aparecer.'],
- ['resume','Saída e retorno ao navegador','Volte ao BO após alternar aplicativos e confira que o anexo permanece íntegro.']
+ ['reload','Descarte ao recarregar','Após conferir o PDF, recarregue o BO: as fotos não devem ser recuperadas.'],
+ ['isolation','Isolamento entre BO fictício A e B','Ao selecionar BO B, as fotos do BO A não devem aparecer; voltar ao A também não deve recuperá-las.'],
+ ['close','Fechamento e reabertura','Feche a aba e abra novamente: as fotos devem ter sido descartadas.']
 ];
 const optional=[
  ['heic','HEIC / foto de câmera (opcional)','Somente foto de objeto criado para teste. Se o aparelho não oferecer HEIC, marque não aplicável.']
@@ -72,70 +72,6 @@ function renderAuto(){
  }
  renderSummary();
 }
-async function cryptoTest(){
- if(!window.crypto||!crypto.subtle||!crypto.getRandomValues)
-  throw Error('WebCrypto indisponível');
- const enc=new TextEncoder();
- const password=enc.encode('R250-FAKE-QA-KEY-NOT-USER-PASSWORD');
- const salt=crypto.getRandomValues(new Uint8Array(16));
- const base=await crypto.subtle.importKey('raw',password,'PBKDF2',false,['deriveKey']);
- const key=await crypto.subtle.deriveKey({
-  name:'PBKDF2',salt,iterations:310000,hash:'SHA-256'
- },base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
- const iv=crypto.getRandomValues(new Uint8Array(12));
- const clear=enc.encode('R250-TESTE-SINTETICO');
- const encrypted=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,clear);
- const decrypted=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,encrypted);
- if(new TextDecoder().decode(decrypted)!=='R250-TESTE-SINTETICO')
-  throw Error('Não foi possível recuperar os dados cifrados');
- const changed=new Uint8Array(encrypted);changed[changed.length-1]^=1;
- let blocked=false;
- try{await crypto.subtle.decrypt({name:'AES-GCM',iv},key,changed)}
- catch(e){blocked=true}
- if(!blocked)throw Error('Alteração indevida não foi rejeitada');
- return 'AES-GCM + PBKDF2 e rejeição de adulteração';
-}
-async function indexedDbTest(){
- if(!window.indexedDB)throw Error('IndexedDB indisponível');
- const tag=Array.from(crypto.getRandomValues(new Uint8Array(8)),
-  x=>x.toString(16).padStart(2,'0')).join('');
- const name='r250-qa-temporario-'+tag;
- let db;
- try{
-  db=await new Promise((resolve,reject)=>{
-   const req=indexedDB.open(name,1);
-   req.onupgradeneeded=()=>req.result.createObjectStore('probe');
-   req.onsuccess=()=>resolve(req.result);
-   req.onerror=()=>reject(req.error||Error('Falha ao abrir IndexedDB'));
-  });
-  await new Promise((resolve,reject)=>{
-   const tx=db.transaction('probe','readwrite');
-   tx.objectStore('probe').put({synthetic:true,content:'R250-TESTE'},'fake');
-   tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error||Error('Gravação não confirmada'));
-  });
-  const record=await new Promise((resolve,reject)=>{
-   const tx=db.transaction('probe','readonly');
-   const req=tx.objectStore('probe').get('fake');
-   let value;
-   req.onsuccess=()=>{value=req.result};
-   req.onerror=()=>reject(req.error||Error('Leitura não confirmada'));
-   tx.oncomplete=()=>resolve(value); // Safari requires completion before deleteDatabase.
-   tx.onabort=()=>reject(tx.error||Error('Transação de leitura falhou'));
-  });
-  if(!record||record.content!=='R250-TESTE')throw Error('Dado fictício não foi recuperado');
- }finally{
-  if(db)db.close();
-  await new Promise((resolve,reject)=>{
-   const req=indexedDB.deleteDatabase(name);
-   const watchdog=setTimeout(()=>reject(Error('Limpeza temporária indisponível')),7000);
-   req.onsuccess=()=>{clearTimeout(watchdog);resolve()};
-   req.onerror=()=>{clearTimeout(watchdog);reject(req.error||Error('Limpeza falhou'))};
-   // onblocked may fire before other transactions finish in WebKit;
-   // keep waiting for success or the bounded watchdog instead of false failure.
-  });
- }
- return 'gravou, leu e excluiu apenas banco de teste temporário';
-}
 function loadImg(blob){
  return new Promise((resolve,reject)=>{
   const url=URL.createObjectURL(blob),img=new Image();
@@ -172,8 +108,6 @@ async function run(){
   if(location.protocol!=='https:'||!isSecureContext)throw Error('HTTPS seguro não confirmado');
   return 'contexto seguro ativo';
  });
- await runOne('webcrypto','Criptografia e integridade',cryptoTest);
- await runOne('storage','Armazenamento local temporário',indexedDbTest);
  await runOne('images','Processamento de imagens fictícias',canvasTest);
  $('run').disabled=false;
  renderSummary();
@@ -182,7 +116,7 @@ function summaryData(){
  const device=$('device').value,browser=$('browser').value;
  const claimedPhysical=$('physical').checked;
  const physical=claimedPhysical&&(device==='android'||device==='iphone');
- const autoOk=values.auto.length===4&&values.auto.every(x=>x.status==='pass');
+ const autoOk=values.auto.length===2&&values.auto.every(x=>x.status==='pass');
  const manualOk=required.every(x=>values.manual[x[0]]==='pass');
  const failed=values.auto.some(x=>x.status==='fail')||
   Object.values(values.manual).some(v=>v==='fail');
@@ -199,13 +133,13 @@ function renderSummary(){
   target.textContent='Há uma falha registrada. Não considerar este aparelho aprovado. Exportar o relatório para análise técnica.';
  }else{
   target.className='status pending';
-  target.textContent='Pendente: executar quatro testes técnicos, preencher os itens manuais, identificar o tipo de aparelho/navegador e confirmar teste físico.';
+  target.textContent='Pendente: executar dois testes técnicos, preencher os itens manuais, identificar o tipo de aparelho/navegador e confirmar teste físico.';
  }
 }
 function report(){
  const s=summaryData();
  return {
-  schema:'r250-device-qa-v1',
+  schema:'r274-device-qa-v1',
   testEnvironment:'PUBLIC_SYNTHETIC_HTTPS_PREVIEW_ONLY',
   collectedAt:new Date().toISOString(),
   origin:location.origin+location.pathname.replace(/[^/]*$/,''),
@@ -238,7 +172,7 @@ function download(){
  const data=renderReport();
  const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
  const a=document.createElement('a');
- a.href=url;a.download='R250_autoteste_BO_fotografico_'+new Date().toISOString().slice(0,10)+'.json';
+ a.href=url;a.download='R274_autoteste_BO_fotografico_'+new Date().toISOString().slice(0,10)+'.json';
  document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),2000);
 }

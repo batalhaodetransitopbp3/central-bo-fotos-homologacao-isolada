@@ -1,7 +1,7 @@
 {
-  "marker": "R249_TEST_ONLY_HTTPS_NOT_PRODUCTION",
-  "createdAt": "2026-11-18",
-  "source": "R240_BO_ONLY_ISOLATED_RELEASE_REVIEW",
+  "marker": "R274_TEST_ONLY_HTTPS_NOT_PRODUCTION",
+  "source": "f45839365d910593e0c89e38eb2b826f34122b26",
+  "scope": "PRINT_ONLY_TRANSIENT",
   "syntheticOnly": true,
   "productionModified": false,
   "hasBackend": false,
@@ -10,15 +10,15 @@
   "staticFiles": [
     {
       "name": "boletim_ocorrencia_bptrans_1cprv.html",
-      "sourceSha256": "5449b3b5548163f7b8b053a8e50978e48feef5b59a627527c7aafdfe424754ee",
-      "previewSha256": "7ac9e083532c98bfd85f826668a588b6c83cc2e8db94e623f7b20ca4c720b0a1",
-      "bytes": 184968
+      "sourceSha256": "cae489f883017dee56a0be5dd504ddb122ffddf9fbe809071e5fb4fd6997182f",
+      "previewSha256": "2ff148445a196ab9bf3ffad305ec1e3c03842b245e9447389e972d7e4f5ec8c7",
+      "bytes": 168406
     },
     {
       "name": "boletim_ocorrencia_bptrans_1cprv_ios.html",
-      "sourceSha256": "4c350eef407168fbb96d6a205e55fdc8d18ececbb65259f082a9be246a308c5a",
-      "previewSha256": "87cece0d4776ed788df07e54b353b5e3b3fbb15f0456a9a775646d8957183b7a",
-      "bytes": 186814
+      "sourceSha256": "ac3ce6cd89560c2d7c93ffb2924c02f22e83d98f236d656bcf2ab7cca08a3d68",
+      "previewSha256": "4a1877d9d5e8a93d1dfa037dbc7255ce2701c90fee1797d8e7c634462ff41dc2",
+      "bytes": 170252
     },
     {
       "name": "central_cloud.js",
@@ -31,6 +31,18 @@
     {
       "name": "service_flow.js",
       "previewSha256": "e4b66874363d794d6b50460f263d8271f4e5ae77a415d99e92470968ab45c75d"
+    },
+    {
+      "name": "index.html",
+      "previewSha256": "9f479505a14bd6912f1f25ce6ea0eb788324041ddcd8a7b4f446ac58b20a707e"
+    },
+    {
+      "name": "teste-dispositivo.html",
+      "previewSha256": "39a14ef87b6b413d860d75be7243835ec2e70036d1efbec8b8a020b3fe09ab3e"
+    },
+    {
+      "name": "teste-dispositivo.js",
+      "previewSha256": "fc40e14e798391d9f37f8941807557f66d1eef3621b41798c20e3b4e4f0c8585"
     }
   ]
 }
