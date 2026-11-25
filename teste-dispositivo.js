@@ -9,7 +9,7 @@ const required=[
  ['four','Quatro fotos na primeira página','Anexe quatro imagens fictícias: devem aparecer em uma única folha.'],
  ['five','Quinta foto abre nova página','A quinta foto deve abrir a segunda folha, sem cortar as anteriores.'],
  ['nine','Nove fotos distribuídas 4 + 4 + 1','A nona foto deve aparecer sozinha na terceira folha.'],
- ['crop','Enquadramento e rotação','Ajuste zoom, posição e rotação em uma foto e salve o recorte.'],
+ ['crop','Enquadramento e rotação','Teste 1:1 e 3:4, ajuste zoom, posição e rotação e salve o recorte.'],
  ['pdf','PDF legível no próprio aparelho','Gere, abra e confira o PDF de nove fotos, incluindo suas três folhas adicionais.'],
  ['reload','Descarte ao recarregar','Após conferir o PDF, recarregue o BO: as fotos não devem ser recuperadas.'],
  ['isolation','Isolamento entre BO fictício A e B','Ao selecionar BO B, as fotos do BO A não devem aparecer; voltar ao A também não deve recuperá-las.'],
@@ -139,7 +139,7 @@ function renderSummary(){
 function report(){
  const s=summaryData();
  return {
-  schema:'r274-device-qa-v1',
+  schema:'r275-device-qa-v1',
   testEnvironment:'PUBLIC_SYNTHETIC_HTTPS_PREVIEW_ONLY',
   collectedAt:new Date().toISOString(),
   origin:location.origin+location.pathname.replace(/[^/]*$/,''),
@@ -172,7 +172,7 @@ function download(){
  const data=renderReport();
  const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
  const a=document.createElement('a');
- a.href=url;a.download='R274_autoteste_BO_fotografico_'+new Date().toISOString().slice(0,10)+'.json';
+ a.href=url;a.download='R275_autoteste_BO_fotografico_'+new Date().toISOString().slice(0,10)+'.json';
  document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),2000);
 }
